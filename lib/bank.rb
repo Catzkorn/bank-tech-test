@@ -25,17 +25,16 @@ class Bank
   private
 
   def deposit_errors(amount)
-    raise "You cannot deposit an amount of 0 or less" if amount <= 0
-
     raise "Inputted amount is not an integer" if !amount.is_a?(Integer)
+    raise "You cannot deposit an amount of 0 or less" if amount <= 0
   end
 
   def withdraw_errors(amount)
+    raise "Inputted amount is not an integer" if !amount.is_a?(Integer)
+
     raise "Cannot withdraw more than account balance" if amount > @balance
 
     raise "You cannot withdraw an amount of 0 or less" if amount <= 0
-
-    raise "Inputted amount is not an integer" if !amount.is_a?(Integer)
   end
 
   def format_statement
