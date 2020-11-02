@@ -18,6 +18,8 @@ class Bank
 
     raise "You cannot withdraw an amount of 0 or less" if amount <= 0
 
+    raise "Inputted amount is not an integer" if !amount.integer?
+
     @balance -= amount
     @transactions << { date: time.strftime("%d/%m/%Y"), debit: amount, balance: @balance }
   end

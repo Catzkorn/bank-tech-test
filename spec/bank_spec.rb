@@ -36,5 +36,9 @@ describe Bank do
     it "raises an error if a negative balance withdraw is made" do
       expect { @account.withdraw(-20, @thirteenthjan) }.to raise_error("You cannot withdraw an amount of 0 or less")
     end
+
+    it "raises an error if a string is input as an amount" do
+      expect { @account.withdraw("Goodbye!", @tenthjan).to raise_error("Inputted amount is not an integer") }
+    end
   end
 end
