@@ -7,6 +7,8 @@ class Bank
   def deposit(amount, time = Time.now)
     raise "You cannot deposit an amount of 0 or less" if amount <= 0
 
+    raise "Inputted amount is not an integer" if !amount.integer?
+
     @transactions << { date: time.strftime("%d/%m/%Y"), credit: amount }
     @balance += amount
   end
