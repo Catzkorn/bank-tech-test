@@ -5,9 +5,7 @@ class Bank
   end
 
   def deposit(amount, time = Time.now)
-    raise "You cannot deposit an amount of 0 or less" if amount <= 0
-
-    raise "Inputted amount is not an integer" if !amount.integer?
+    deposit_errors(amount)
 
     @balance += amount
     @transactions << { date: time.strftime("%d/%m/%Y"), credit: amount, balance: @balance }
@@ -29,6 +27,12 @@ class Bank
   end
 
   private
+
+  def deposit_errors(amount)
+    raise "You cannot deposit an amount of 0 or less" if amount <= 0
+
+    raise "Inputted amount is not an integer" if !amount.integer?
+  end
 
   def format_statement
     ledger = []
