@@ -4,20 +4,20 @@ class Bank
     @balance = 0
   end
 
-  def deposit(amount, time = Time.now)
-    deposit_errors(amount, time)
+  def deposit(amount, date = Time.now)
+    deposit_errors(amount, date)
 
     @balance += amount
-    @transactions << { date: time.strftime("%d/%m/%Y"),
+    @transactions << { date: date.strftime("%d/%m/%Y"),
                        credit: amount,
                        balance: @balance }
   end
 
-  def withdraw(amount, time = Time.now)
-    withdraw_errors(amount, time)
+  def withdraw(amount, date = Time.now)
+    withdraw_errors(amount, date)
 
     @balance -= amount
-    @transactions << { date: time.strftime("%d/%m/%Y"),
+    @transactions << { date: date.strftime("%d/%m/%Y"),
                        debit: amount,
                        balance: @balance }
   end
@@ -28,18 +28,18 @@ class Bank
 
   private
 
-  def deposit_errors(amount, time)
+  def deposit_errors(amount, date)
     raise "Inputted amount is not an integer" unless amount.is_a?(Integer)
 
-    raise "Cannot make deposits in the future" if time > Time.now
+    raise "Cannot make deposits in the future" if date > Time.now
 
     raise "You cannot deposit an amount of 0 or less" if amount <= 0
   end
 
-  def withdraw_errors(amount, time)
+  def withdraw_errors(amount, date)
     raise "Inputted amount is not an integer" unless amount.is_a?(Integer)
 
-    raise "Cannot withdraw in the future" if time > Time.now
+    raise "Cannot withdraw in the future" if date > Time.now
 
     raise "Cannot withdraw more than account balance" if amount > @balance
 
