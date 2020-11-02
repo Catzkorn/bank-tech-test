@@ -1,9 +1,8 @@
 # The bank account
 
-
 Welcome to the Bank! A simple bank program which is run using IRB. 
 
-
+Code is formatted to [rufo](https://github.com/ruby-formatter/rufo) standards, tested using the [rspec](https://github.com/rspec/rspec) framework. Testing coverage is handled by [simplecov](https://github.com/simplecov-ruby/simplecov).
 
 ## To run
 
