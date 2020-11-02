@@ -5,7 +5,7 @@ class Bank
   end
 
   def deposit(amount, time = Time.now)
-    deposit_errors(amount)
+    deposit_errors(amount, time)
 
     @balance += amount
     @transactions << { date: time.strftime("%d/%m/%Y"),
@@ -28,8 +28,11 @@ class Bank
 
   private
 
-  def deposit_errors(amount)
+  def deposit_errors(amount, time)
     raise "Inputted amount is not an integer" unless amount.is_a?(Integer)
+
+    raise "Cannot make deposits in the future" if time > Time.now
+
     raise "You cannot deposit an amount of 0 or less" if amount <= 0
   end
 

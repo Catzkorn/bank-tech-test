@@ -21,6 +21,10 @@ describe Bank do
     it "raises an error if a string is input as an amount" do
       expect { @account.deposit("hello!", @tenthjan).to raise_error("Inputted amount is not an integer") }
     end
+
+    it "raises an error if inputted date is in the future" do
+      expect { @account.deposit(50, Time.new(2022, 1, 14)).to raise_error("Cannot make deposits in the future") }
+    end
   end
 
   describe "#withdraw" do

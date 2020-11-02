@@ -3,16 +3,14 @@
     "coverage": {
       "/Users/charlotte/Makers/full-course/week-ten/tech-tests/bank-tech-test/spec/bank_spec.rb": {
         "lines": [
-          null,
-          null,
           1,
           null,
           1,
           1,
-          8,
-          8,
-          8,
-          8,
+          9,
+          9,
+          9,
+          9,
           null,
           null,
           1,
@@ -23,6 +21,10 @@
           null,
           1,
           2,
+          null,
+          null,
+          1,
+          1,
           null,
           null,
           1,
@@ -65,8 +67,8 @@
         "lines": [
           1,
           1,
-          8,
-          8,
+          9,
+          9,
           null,
           null,
           1,
@@ -94,6 +96,7 @@
           1,
           null,
           1,
+          5,
           5,
           5,
           null,
@@ -147,6 +150,6 @@
         ]
       }
     },
-    "timestamp": 1604337732
+    "timestamp": 1604339308
   }
 }
