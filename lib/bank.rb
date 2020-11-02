@@ -57,7 +57,7 @@ class Bank
 
       ledger_entry += debit(transaction)
 
-      ledger_entry += ("%.2f" % transaction[:balance])
+      ledger_entry += (decimal_format(transaction[:balance]))
 
       ledger << ledger_entry
     end
@@ -72,7 +72,7 @@ class Bank
     if transaction[:credit].nil?
       " ||"
     else
-      " || #{"%.2f" % transaction[:credit]}"
+      " || #{decimal_format(transaction[:credit])}"
     end
   end
 
@@ -80,7 +80,11 @@ class Bank
     if transaction[:debit].nil?
       " || || "
     else
-      " || #{"%.2f" % transaction[:debit]} || "
+      " || #{decimal_format(transaction[:debit])} || "
     end
+  end
+
+  def decimal_format(number)
+    return "#{"%.2f" % number}"
   end
 end
