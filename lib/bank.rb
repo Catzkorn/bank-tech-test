@@ -14,6 +14,8 @@ class Bank
   end
 
   def withdraw(amount, time = Time.now)
+    raise "Cannot withdraw more than account balance" if amount > @balance
+
     @balance -= amount
     @transactions << { date: time.strftime("%d/%m/%Y"), debit: amount, balance: @balance }
   end

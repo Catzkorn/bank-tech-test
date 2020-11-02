@@ -28,5 +28,9 @@ describe Bank do
       @account.withdraw(500, @thirteenthjan)
       expect(@account.statement).to eq("date || credit || debit || balance\n13/01/2012 || || 500.00 || 500.00\n10/01/2012 || 1000.00 || || 1000.00")
     end
+
+    it "raises an error if a withdraw is made that goes below the overall balance" do
+      expect { @account.withdraw(50, @tenthjan) }.to raise_error("Cannot withdraw more than account balance")
+    end
   end
 end
