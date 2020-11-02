@@ -9,8 +9,13 @@ class Bank
 
     raise "Inputted amount is not an integer" if !amount.integer?
 
-    @transactions << { date: time.strftime("%d/%m/%Y"), credit: amount }
     @balance += amount
+    @transactions << { date: time.strftime("%d/%m/%Y"), credit: amount, balance: @balance }
+  end
+
+  def withdraw(amount, time = Time.now)
+    @balance -= amount
+    @transactions << { date: time.strftime("%d/%m/%Y"), debit: amount, balance: @balance }
   end
 
   def statement
@@ -30,11 +35,11 @@ class Bank
 
       ledger_entry += debit(transaction)
 
-      ledger_entry += "#{"%.2f" % @balance}"
+      ledger_entry += "#{"%.2f" % transaction[:balance]}"
 
       ledger << ledger_entry
     }
-    return ledger.join("\n")
+    return ledger.reverse.join("\n")
   end
 
   def statement_header
