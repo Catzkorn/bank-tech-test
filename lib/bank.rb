@@ -5,17 +5,19 @@ class Bank
   end
 
   def deposit(amount, time = Time.now)
+    raise "You cannot deposit an amount of 0 or less" if amount <= 0
+
     @transactions << { date: time.strftime("%d/%m/%Y"), credit: amount }
     @balance += amount
   end
 
   def statement
-    return "#{statement_header()}\n#{statement_transactions()}"
+    return "#{statement_header()}\n#{format_statement()}"
   end
 
   private
 
-  def statement_transactions
+  def format_statement
     ledger = []
     @transactions.each { |transaction|
       ledger_entry = ""
