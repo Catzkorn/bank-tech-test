@@ -44,6 +44,8 @@ RuntimeError (Cannot withdraw more than account balance)
 #
 2.7.0 :005 > account.withdraw("money")
 RuntimeError (Inputted amount is not an integer)
+
+
 ```
 
 ### Date input: 
@@ -52,8 +54,14 @@ Date is an optional parameter to the withdraw and deposit methods. If no paramet
 
 ```ruby
 2.7.0 :006 > account.deposit(500, Time.new(2020, 01, 13))
- => [{:date=>"13/01/2020", :credit=>500, :balance=>500}] 
-
+=> [{:date=>"13/01/2020", :credit=>500, :balance=>500}] 
+# Error will be thrown if a date in the future is added
+# Deposit
+2.7.0 :005 > account.deposit(50, Time.new(2022, 1, 14))
+RuntimeError (Cannot make deposits in the future)
+# Withdraw
+2.7.0 :007 > account.withdraw(30, Time.new(2202))
+RuntimeError (Cannot withdraw in the future)
 ```
 
 # Testing
