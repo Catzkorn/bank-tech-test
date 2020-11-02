@@ -30,7 +30,11 @@ describe Bank do
     end
 
     it "raises an error if a withdraw is made that goes below the overall balance" do
-      expect { @account.withdraw(50, @tenthjan) }.to raise_error("Cannot withdraw more than account balance")
+      expect { @account.withdraw(50, @thirteenthjan) }.to raise_error("Cannot withdraw more than account balance")
+    end
+
+    it "raises an error if a negative balance withdraw is made" do
+      expect { @account.withdraw(-20, @thirteenthjan) }.to raise_error("You cannot withdraw an amount of 0 or less")
     end
   end
 end
