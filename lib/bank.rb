@@ -14,7 +14,7 @@ class Bank
   end
 
   def withdraw(amount, time = Time.now)
-    withdraw_errors(amount)
+    withdraw_errors(amount, time)
 
     @balance -= amount
     @transactions << { date: time.strftime("%d/%m/%Y"),
@@ -36,8 +36,10 @@ class Bank
     raise "You cannot deposit an amount of 0 or less" if amount <= 0
   end
 
-  def withdraw_errors(amount)
+  def withdraw_errors(amount, time)
     raise "Inputted amount is not an integer" unless amount.is_a?(Integer)
+
+    raise "Cannot withdraw in the future" if time > Time.now
 
     raise "Cannot withdraw more than account balance" if amount > @balance
 
