@@ -79,11 +79,11 @@ Bundle complete! 3 Gemfile dependencies, 14 gems now installed.
 ```ruby
 # Run rspec in the terminal
 charlotte@Charlottes-MBP bank-tech-test % rspec
-........
+..........
 
-Finished in 0.00667 seconds (files took 0.23404 seconds to load)
-8 examples, 0 failures
+Finished in 0.0067 seconds (files took 0.18202 seconds to load)
+10 examples, 0 failures
 
 
-COVERAGE: 100.00% -- 74/74 lines in 2 files
+COVERAGE: 100.00% -- 83/83 lines in 2 files
 ```
