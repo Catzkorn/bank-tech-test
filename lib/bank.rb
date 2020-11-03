@@ -1,3 +1,5 @@
+require "formatter"
+
 class Bank
   def initialize
     @transactions = []
@@ -21,8 +23,8 @@ class Bank
                        amount: amount }
   end
 
-  def statement
-    "#{statement_header}\n#{format_statement}"
+  def statement(formatter = Formatter.new)
+    formatter.format(@transactions)
   end
 
   private
@@ -45,60 +47,6 @@ class Bank
     raise "You cannot withdraw an amount of 0 or less" if amount <= 0
   end
 
-  def format_statement
-    ledger = []
-    current_balance = 0
-
-    p sort_transactions(@transactions)
-
-    sort_transactions(@transactions).each do |transaction|
-      ledger_entry = []
-
-      ledger_entry << transaction[:date]
-
-      ledger_entry << credit(transaction)
-
-      ledger_entry << debit(transaction)
-      current_balance = balance(transaction, current_balance)
-      ledger_entry << decimal_format(current_balance)
-
-      ledger << ledger_entry.join(" || ").gsub("  ", " ")
-    end
-
-    return ledger.reverse.join("\n")
-  end
-
-  def statement_header
-    header = ["date", "credit", "debit", "balance"]
-    return header.join(" || ")
-  end
-
-  def credit(transaction)
-    if transaction[:type] != :credit
-      return
-    else
-      decimal_format(transaction[:amount])
-    end
-  end
-
-  def debit(transaction)
-    if transaction[:type] != :debit
-      return
-    else
-      decimal_format(transaction[:amount])
-    end
-  end
-
-  def balance(transaction, balance)
-    if transaction[:type] == :credit
-      balance += transaction[:amount]
-    elsif transaction[:type] == :debit
-      balance -= transaction[:amount]
-    end
-
-    return balance
-  end
-
   def check_balance
     balance = 0
     @transactions.each { |transaction|
@@ -109,19 +57,5 @@ class Bank
       end
     }
     return balance
-  end
-
-  def decimal_format(number)
-    return "#{"%.2f" % number}"
-  end
-
-  def sort_transactions(transactions)
-    sorted_transactions = []
-
-    sorted_transactions = transactions.sort_by { |transaction|
-      Date.strptime(transaction[:date], "%d/%m/%Y")
-    }
-
-    return sorted_transactions
   end
 end
