@@ -13,9 +13,7 @@ class Formatter
       ledger_entry = []
 
       ledger_entry << transaction[:date]
-
       ledger_entry << credit(transaction)
-
       ledger_entry << debit(transaction)
       current_balance = balance(transaction, current_balance)
       ledger_entry << decimal_format(current_balance)
