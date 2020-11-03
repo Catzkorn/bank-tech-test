@@ -14,6 +14,12 @@ describe Bank do
       expect(@account.statement).to eq("date || credit || debit || balance\n10/01/2012 || 1000.00 || || 1000.00")
     end
 
+    it "allows a customer to deposit money and view amount deposisted" do
+      date = Time.now
+      @account.deposit(850)
+      expect(@account.statement).to eq("date || credit || debit || balance\n#{date.strftime("%d/%m/%Y")} || 850.00 || || 850.00")
+    end
+
     it "raises an error if a negative balance deposit is made" do
       expect { @account.deposit(-20, @tenthjan) }.to raise_error("You cannot deposit an amount of 0 or less")
     end
