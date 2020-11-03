@@ -14,7 +14,7 @@ describe Bank do
       expect(@account.statement).to eq("date || credit || debit || balance\n10/01/2012 || 1000.00 || || 1000.00")
     end
 
-    it "allows a customer to deposit money and view amount deposisted" do
+    it "allows a customer to deposit money without a specific date and view amount deposisted" do
       date = Time.now
       @account.deposit(850)
       expect(@account.statement).to eq("date || credit || debit || balance\n#{date.strftime("%d/%m/%Y")} || 850.00 || || 850.00")
@@ -38,6 +38,13 @@ describe Bank do
       @account.deposit(1000, @tenthjan)
       @account.withdraw(500, @thirteenthjan)
       expect(@account.statement).to eq("date || credit || debit || balance\n13/01/2012 || || 500.00 || 500.00\n10/01/2012 || 1000.00 || || 1000.00")
+    end
+
+    it "allows a customer to withdraw money without a specific date and view the statement" do
+      date = Time.now
+      @account.deposit(666, @thirteenthjan)
+      @account.withdraw(555)
+      expect(@account.statement).to eq("date || credit || debit || balance\n#{date.strftime("%d/%m/%Y")} || || 555.00 || 111.00\n13/01/2012 || 666.00 || || 666.00")
     end
 
     it "raises an error if a withdraw is made that goes below the overall balance" do
