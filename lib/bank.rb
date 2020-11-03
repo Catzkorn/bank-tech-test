@@ -7,10 +7,9 @@ class Bank
   def deposit(amount, date = Time.now)
     deposit_errors(amount, date)
 
-    @balance += amount
     @transactions << { date: date.strftime("%d/%m/%Y"),
-                       credit: amount,
-                       balance: @balance }
+                       type: :credit,
+                       amount: amount }
   end
 
   def withdraw(amount, date = Time.now)
@@ -18,8 +17,8 @@ class Bank
 
     @balance -= amount
     @transactions << { date: date.strftime("%d/%m/%Y"),
-                       debit: amount,
-                       balance: @balance }
+                       type: :debit,
+                       amount: amount }
   end
 
   def statement
@@ -41,27 +40,32 @@ class Bank
 
     raise "Cannot withdraw in the future" if date > Time.now
 
-    raise "Cannot withdraw more than account balance" if amount > @balance
+    raise "Cannot withdraw more than account balance" if amount > check_balance
 
     raise "You cannot withdraw an amount of 0 or less" if amount <= 0
   end
 
   def format_statement
     ledger = []
-    @transactions.each do |transaction|
-      ledger_entry = ""
+    current_balance = 0
 
-      ledger_entry += transaction[:date]
+    p sort_transactions(@transactions)
 
-      ledger_entry += credit(transaction)
+    sort_transactions(@transactions).each do |transaction|
+      ledger_entry = []
 
-      ledger_entry += debit(transaction)
+      ledger_entry << transaction[:date]
 
-      ledger_entry += (decimal_format(transaction[:balance]))
+      ledger_entry << credit(transaction)
 
-      ledger << ledger_entry
+      ledger_entry << debit(transaction)
+      current_balance = balance(transaction, current_balance)
+      ledger_entry << decimal_format(current_balance)
+
+      ledger << ledger_entry.join(" || ").gsub("  ", " ")
     end
-    ledger.reverse.join("\n")
+
+    return ledger.reverse.join("\n")
   end
 
   def statement_header
@@ -70,22 +74,54 @@ class Bank
   end
 
   def credit(transaction)
-    if transaction[:credit].nil?
-      " ||"
+    if transaction[:type] != :credit
+      return
     else
-      " || #{decimal_format(transaction[:credit])}"
+      decimal_format(transaction[:amount])
     end
   end
 
   def debit(transaction)
-    if transaction[:debit].nil?
-      " || || "
+    if transaction[:type] != :debit
+      return
     else
-      " || #{decimal_format(transaction[:debit])} || "
+      decimal_format(transaction[:amount])
     end
+  end
+
+  def balance(transaction, balance)
+    if transaction[:type] == :credit
+      balance += transaction[:amount]
+    elsif transaction[:type] == :debit
+      balance -= transaction[:amount]
+    end
+
+    return balance
+  end
+
+  def check_balance
+    balance = 0
+    @transactions.each { |transaction|
+      if transaction[:type] == :credit
+        balance += transaction[:amount]
+      elsif transaction[:type] == :debit
+        balance -= transaction[:amount]
+      end
+    }
+    return balance
   end
 
   def decimal_format(number)
     return "#{"%.2f" % number}"
+  end
+
+  def sort_transactions(transactions)
+    sorted_transactions = []
+
+    sorted_transactions = transactions.sort_by { |transaction|
+      Date.strptime(transaction[:date], "%d/%m/%Y")
+    }
+
+    return sorted_transactions
   end
 end
