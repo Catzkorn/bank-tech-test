@@ -65,7 +65,8 @@ class Bank
   end
 
   def statement_header
-    "date || credit || debit || balance"
+    header = ["date", "credit", "debit", "balance"]
+    return header.join(" || ")
   end
 
   def credit(transaction)
