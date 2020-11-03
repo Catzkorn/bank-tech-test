@@ -11,11 +11,11 @@ class Formatter
 
     sort_transactions(transactions).each do |transaction|
       ledger_entry = []
+      current_balance = balance(transaction, current_balance)
 
       ledger_entry << transaction[:date]
       ledger_entry << credit(transaction)
       ledger_entry << debit(transaction)
-      current_balance = balance(transaction, current_balance)
       ledger_entry << decimal_format(current_balance)
 
       ledger << ledger_entry.join(" || ").gsub("  ", " ")

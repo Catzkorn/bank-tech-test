@@ -4,6 +4,23 @@ Welcome to the Bank! A simple bank program which is run using IRB.
 
 Code is formatted to [rufo](https://github.com/ruby-formatter/rufo) standards, tested using the [rspec](https://github.com/rspec/rspec) framework. Testing coverage is handled by [simplecov](https://github.com/simplecov-ruby/simplecov).
 
+## Requirements
+
+To use this program, you will need:
+- [Ruby](https://www.ruby-lang.org/en/documentation/installation/)
+- [Bundler](https://bundler.io/)
+
+
+Clone repository to your machine:
+
+```ruby
+# Run bundle to install required gems
+charlotte@Charlottes-MBP bank-tech-test % bundle
+Bundle complete! 3 Gemfile dependencies, 14 gems now installed.
+```
+
+
+
 ## To run
 
 The program has three user facing interactions, deposit, withdraw and statement. The program can be run using the following commands:
@@ -68,13 +85,6 @@ RuntimeError (Cannot withdraw in the future)
 
 To run tests:
 
-Clone repository to your machine:
-
-```ruby
-# Run bundle to install required gems
-charlotte@Charlottes-MBP bank-tech-test % bundle
-Bundle complete! 3 Gemfile dependencies, 14 gems now installed.
-```
 
 ```ruby
 # Run rspec in the terminal
