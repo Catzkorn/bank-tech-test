@@ -10,7 +10,11 @@ class Formatter
   end
 
   def american_date_format
-    @american_date = true
+    if @american_date
+      @american_date = false
+    else
+      @american_date = true
+    end
   end
 
   def transaction_format

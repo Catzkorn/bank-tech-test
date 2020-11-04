@@ -70,6 +70,16 @@ describe Bank do
       @account.american_dates
       expect(@account.statement).to eq("date || credit || debit || balance\n01/12/2014 || || 500.00 || 100.00\n01/11/2013 || 260.00 || || 600.00\n01/10/2012 || 340.00 || || 340.00")
     end
+
+    it "sets the date format to american" do
+      @account.american_dates
+      @account.deposit(340, Time.new(2012, 1, 10))
+      expect(@account.statement).to eq ("date || credit || debit || balance\n01/10/2012 || 340.00 || || 340.00")
+      @account.deposit(260, Time.new(2013, 1, 11))
+      @account.withdraw(500, Time.new(2014, 1, 12))
+      @account.american_dates
+      expect(@account.statement).to eq("date || credit || debit || balance\n12/01/2014 || || 500.00 || 100.00\n11/01/2013 || 260.00 || || 600.00\n10/01/2012 || 340.00 || || 340.00")
+    end
   end
 
   describe "Feature test" do
