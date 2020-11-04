@@ -9,7 +9,7 @@ class Bank
   def deposit(amount, date = Time.now)
     deposit_errors(amount, date)
 
-    @transactions << { date: date.strftime("%d/%m/%Y"),
+    @transactions << { date: date,
                        type: :credit,
                        amount: amount }
   end
@@ -18,7 +18,7 @@ class Bank
     withdraw_errors(amount, date)
 
     @balance -= amount
-    @transactions << { date: date.strftime("%d/%m/%Y"),
+    @transactions << { date: date,
                        type: :debit,
                        amount: amount }
   end

@@ -1,7 +1,7 @@
 require "formatter"
 
 describe Formatter do
-  mock_transactions = [{ :date => "10/01/2012", :type => :credit, :amount => 1000 }, { :date => "13/01/2012", :type => :credit, :amount => 2000 }, { :date => "14/01/2012", :type => :debit, :amount => 500 }]
+  mock_transactions = [{ :date => Date.new(2012, 01, 10), :type => :credit, :amount => 1000 }, { :date => Date.new(2012, 01, 13), :type => :credit, :amount => 2000 }, { :date => Date.new(2012, 01, 14), :type => :debit, :amount => 500 }]
 
   describe "#format_statement" do
     it "takes in an array of hashes, and returns a formatted statement" do

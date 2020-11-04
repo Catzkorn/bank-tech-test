@@ -13,7 +13,7 @@ class Formatter
       ledger_entry = []
       current_balance = balance(transaction, current_balance)
 
-      ledger_entry << transaction[:date]
+      ledger_entry << transaction[:date].strftime("%d/%m/%Y")
       ledger_entry << credit(transaction)
       ledger_entry << debit(transaction)
       ledger_entry << decimal_format(current_balance)
@@ -67,7 +67,7 @@ class Formatter
     sorted_transactions = []
 
     sorted_transactions = transactions.sort_by { |transaction|
-      Date.strptime(transaction[:date], "%d/%m/%Y")
+      transaction[:date]
     }
 
     return sorted_transactions
