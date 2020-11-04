@@ -8,4 +8,8 @@ class Transaction
   def date
     return @date
   end
+
+  def type
+    return @type
+  end
 end
