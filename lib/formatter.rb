@@ -18,7 +18,7 @@ class Formatter
       ledger_entry << debit(transaction)
       ledger_entry << decimal_format(current_balance)
 
-      ledger << ledger_entry.join(" || ").gsub("  ", " ")
+      ledger << separator(ledger_entry)
     end
 
     return ledger.reverse.join("\n")
@@ -26,7 +26,11 @@ class Formatter
 
   def statement_header
     header = ["date", "credit", "debit", "balance"]
-    return header.join(" || ")
+    return separator(header)
+  end
+
+  def separator(data)
+    return data.join(" || ").gsub("  ", " ")
   end
 
   def credit(transaction)
