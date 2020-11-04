@@ -12,4 +12,8 @@ class Transaction
   def type
     return @type
   end
+
+  def amount
+    return @amount
+  end
 end
