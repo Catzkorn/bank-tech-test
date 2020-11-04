@@ -62,7 +62,7 @@ describe Bank do
     end
   end
 
-  describe "american date" do
+  describe "#.american_date" do
     it "sets the date format to american" do
       @account.deposit(340, Time.new(2012, 1, 10))
       @account.deposit(260, Time.new(2013, 1, 11))
@@ -79,6 +79,16 @@ describe Bank do
       @account.withdraw(500, Time.new(2014, 1, 12))
       @account.american_dates
       expect(@account.statement).to eq("date || credit || debit || balance\n12/01/2014 || || 500.00 || 100.00\n11/01/2013 || 260.00 || || 600.00\n10/01/2012 || 340.00 || || 340.00")
+    end
+  end
+
+  describe "#.transaction_column" do
+    it "changes statements to show a transaction column rather than credit and debit" do
+      @account.deposit(1000, Time.new(2012, 1, 10))
+      @account.deposit(2000, Time.new(2012, 1, 13))
+      @account.withdraw(500, Time.new(2012, 1, 14))
+      @account.transaction_column
+      expect(@account.statement).to eq("date || transactions || balance\n14/01/2012 || (500.00) || 2500.00\n13/01/2012 || 2000.00 || 3000.00\n10/01/2012 || 1000.00 || 1000.00")
     end
   end
 

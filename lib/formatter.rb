@@ -1,7 +1,7 @@
 class Formatter
   def initialize
     @american_date = false
-    @collumn_format = false
+    @column_format = false
     @reverse_statement = false
   end
 
@@ -18,7 +18,7 @@ class Formatter
   end
 
   def transaction_format
-    @collumn_format = true
+    @column_format = true
   end
 
   def reverse_statement_format
@@ -35,8 +35,8 @@ class Formatter
     sorted_transactions.each do |transaction|
       current_balance = balance(transaction, current_balance)
 
-      if @collumn_format
-        ledger_entry = transaction_collumn_format(transaction, current_balance)
+      if @column_format
+        ledger_entry = transaction_column_format(transaction, current_balance)
       else
         ledger_entry = standard_format(transaction, current_balance)
       end
@@ -66,7 +66,7 @@ class Formatter
   end
 
   def statement_header
-    if @collumn_format
+    if @column_format
       header = ["date", "transactions", "balance"]
     else
       header = ["date", "credit", "debit", "balance"]
@@ -97,7 +97,7 @@ class Formatter
     end
   end
 
-  def transaction_collumn(transaction)
+  def transaction_column(transaction)
     if transaction.type == :credit
       return decimal_format(transaction.amount)
     elsif transaction.type == :debit
@@ -139,10 +139,10 @@ class Formatter
     return ledger_entry
   end
 
-  def transaction_collumn_format(transaction, current_balance)
+  def transaction_column_format(transaction, current_balance)
     ledger_entry = []
     ledger_entry << date_format(transaction.date)
-    ledger_entry << transaction_collumn(transaction)
+    ledger_entry << transaction_column(transaction)
     ledger_entry << decimal_format(current_balance)
 
     return ledger_entry

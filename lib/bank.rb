@@ -24,6 +24,10 @@ class Bank
     @formatter.american_date_format
   end
 
+  def transaction_column
+    @formatter.transaction_format
+  end
+
   def statement
     @formatter.format(@transactions)
   end

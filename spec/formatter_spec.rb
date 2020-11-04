@@ -24,22 +24,22 @@ describe Formatter do
     end
   end
 
-  describe "Single Transaction Collumn Format" do
-    it "rormats the statement to have a single transaction collumn, with withdraws formatted in ()" do
+  describe "Single Transaction column Format" do
+    it "rormats the statement to have a single transaction column, with withdraws formatted in ()" do
       mock_transactions = [transaction_double, transaction_doubletwo, transaction_doublethree]
       @formatter.transaction_format
       expect(@formatter.format(mock_transactions)).to eq("date || transactions || balance\n14/01/2012 || (500.00) || 2500.00\n13/01/2012 || 2000.00 || 3000.00\n10/01/2012 || 1000.00 || 1000.00")
     end
   end
 
-  describe "Reverse Collumns" do
-    it "reverses the order of the collumns in debit/credit format" do
+  describe "Reverse columns" do
+    it "reverses the order of the columns in debit/credit format" do
       mock_transactions = [transaction_double, transaction_doubletwo, transaction_doublethree]
       @formatter.reverse_statement_format
       expect(@formatter.format(mock_transactions)).to eq("balance || debit || credit || date\n2500.00 || 500.00 || || 14/01/2012\n3000.00 || || 2000.00 || 13/01/2012\n1000.00 || || 1000.00 || 10/01/2012")
     end
 
-    it "reverses the order of the collumns of single transaction collumn format" do
+    it "reverses the order of the columns of single transaction column format" do
       mock_transactions = [transaction_double, transaction_doubletwo, transaction_doublethree]
       @formatter.reverse_statement_format
       @formatter.transaction_format
