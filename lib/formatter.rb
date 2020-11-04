@@ -17,9 +17,9 @@ class Formatter
     @collumn_format = true
   end
 
-  # def reverse_statement_format
-  #   @reverse_statement = true
-  # end
+  def reverse_statement_format
+    @reverse_statement = true
+  end
 
   private
 
@@ -36,17 +36,22 @@ class Formatter
         ledger_entry = standard_format(transaction, current_balance)
       end
 
+      if @reverse_statement
+        ledger_entry = order_format(ledger_entry)
+      end
+
       ledger << separator(ledger_entry)
     end
 
     return ledger.reverse.join("\n")
   end
 
-  # def order_format(ledger_entry)
-  #   if @reverse_statement
-  #     return ledger_entry.reverse
-  #   end
-  # end
+  def order_format(entry)
+    if @reverse_statement
+      return entry.reverse
+    end
+    return entry
+  end
 
   def date_format(date)
     case @american_format
@@ -63,6 +68,9 @@ class Formatter
     else
       header = ["date", "credit", "debit", "balance"]
     end
+
+    header = order_format(header)
+
     return separator(header)
   end
 

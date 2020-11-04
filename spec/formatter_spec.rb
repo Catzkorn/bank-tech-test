@@ -32,16 +32,18 @@ describe Formatter do
     end
   end
 
-  # describe "Reverse Collumns" do
-  #   it "reverses the order of the collumns in debit/credit format" do
-  #     @formatter.reverse_statement_format
-  #     expect(@formatter.format(mock_transactions)).to eq("balance || debit || credit || date\n2500.00 || 500.00 || || 01/14/2012\n3000.00 || || 2000.00 || 01/13/2012\n1000.00 || || 1000.00 || 01/10/2012")
-  #   end
+  describe "Reverse Collumns" do
+    it "reverses the order of the collumns in debit/credit format" do
+      mock_transactions = [transaction_double, transaction_doubletwo, transaction_doublethree]
+      @formatter.reverse_statement_format
+      expect(@formatter.format(mock_transactions)).to eq("balance || debit || credit || date\n2500.00 || 500.00 || || 14/01/2012\n3000.00 || || 2000.00 || 13/01/2012\n1000.00 || || 1000.00 || 10/01/2012")
+    end
 
-  #   it "reverses the order of the collumns of single transaction collumn format" do
-  #     @formatter.reverse_statement_format
-  #     @formatter.american_date_format
-  #     expect(@formatter.format(mock_transactions)).to eq("balance || transactions || date\n2500.00 || (500.00) || 14/01/2012\n3000.00 || 2000.00 || 13/01/2012\n1000.00 || 1000.00 || 10/01/2012")
-  #   end
-  # end
+    it "reverses the order of the collumns of single transaction collumn format" do
+      mock_transactions = [transaction_double, transaction_doubletwo, transaction_doublethree]
+      @formatter.reverse_statement_format
+      @formatter.transaction_collumn_format
+      expect(@formatter.format(mock_transactions)).to eq("balance || transactions || date\n2500.00 || (500.00) || 14/01/2012\n3000.00 || 2000.00 || 13/01/2012\n1000.00 || 1000.00 || 10/01/2012")
+    end
+  end
 end
