@@ -102,6 +102,16 @@ describe Bank do
     end
   end
 
+  describe "#.reverse_statement" do
+    it "reverses the statement vertically" do
+      @account.deposit(1000, Time.new(2012, 1, 10))
+      @account.deposit(2000, Time.new(2012, 1, 13))
+      @account.withdraw(500, Time.new(2012, 1, 14))
+      @account.reverse_statement
+      expect(@account.statement).to eq("balance || debit || credit || date\n2500.00 || 500.00 || || 14/01/2012\n3000.00 || || 2000.00 || 13/01/2012\n1000.00 || || 1000.00 || 10/01/2012")
+    end
+  end
+
   describe "feature test" do
     it "is given two deposits and provides one withdraw, and prints statement" do
       @account.deposit(1000, Time.new(2012, 1, 10))

@@ -28,6 +28,10 @@ class Bank
     @formatter.transaction_format
   end
 
+  def reverse_statement
+    @formatter.reverse_statement_format
+  end
+
   def statement
     @formatter.format(@transactions)
   end
