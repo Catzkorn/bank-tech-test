@@ -1,10 +1,19 @@
 class Formatter
-  def initialize(american_format = false)
-    @american_format = american_format
+  def initialize
+    @american_format = false
+    @collumn_format = false
   end
 
   def format(transactions)
     return "#{statement_header}\n#{format_statement(transactions)}"
+  end
+
+  def american_date_format
+    @american_format = true
+  end
+
+  def transaction_collumn_format
+    @collumn_format = true
   end
 
   private
@@ -17,10 +26,16 @@ class Formatter
       ledger_entry = []
       current_balance = balance(transaction, current_balance)
 
-      ledger_entry << date_format(transaction[:date])
-      ledger_entry << credit(transaction)
-      ledger_entry << debit(transaction)
-      ledger_entry << decimal_format(current_balance)
+      if @collumn_format
+        ledger_entry << date_format(transaction[:date])
+        ledger_entry << transaction_collumn(transaction)
+        ledger_entry << decimal_format(current_balance)
+      else
+        ledger_entry << date_format(transaction[:date])
+        ledger_entry << credit(transaction)
+        ledger_entry << debit(transaction)
+        ledger_entry << decimal_format(current_balance)
+      end
 
       ledger << separator(ledger_entry)
     end
@@ -38,7 +53,11 @@ class Formatter
   end
 
   def statement_header
-    header = ["date", "credit", "debit", "balance"]
+    if @collumn_format
+      header = ["date", "transactions", "balance"]
+    else
+      header = ["date", "credit", "debit", "balance"]
+    end
     return separator(header)
   end
 
@@ -59,6 +78,14 @@ class Formatter
       return
     else
       decimal_format(transaction[:amount])
+    end
+  end
+
+  def transaction_collumn(transaction)
+    if transaction[:type] == :credit
+      return credit(transaction)
+    elsif transaction[:type] == :debit
+      return "(" + debit(transaction) + ")"
     end
   end
 

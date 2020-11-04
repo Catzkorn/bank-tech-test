@@ -1,9 +1,10 @@
 require "formatter"
 
 class Bank
-  def initialize
+  def initialize(formatter = Formatter.new)
     @transactions = []
     @balance = 0
+    @formatter = formatter
   end
 
   def deposit(amount, date = Time.now)
@@ -23,8 +24,8 @@ class Bank
                        amount: amount }
   end
 
-  def statement(formatter = Formatter.new)
-    formatter.format(@transactions)
+  def statement
+    @formatter.format(@transactions)
   end
 
   private
