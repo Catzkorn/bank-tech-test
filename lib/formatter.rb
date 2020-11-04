@@ -1,15 +1,15 @@
 class Formatter
   def initialize
     @american_date = false
-    @column_format = false
-    @reverse_statement = false
+    @transaction_column = false
+    @reverse_column_order = false
   end
 
   def format(transactions)
-    return "#{statement_header}\n#{format_statement(transactions)}"
+    return statement_header + "\n" + format_statement(transactions)
   end
 
-  def american_date_format
+  def toggle_date_format
     if @american_date
       @american_date = false
     else
@@ -17,19 +17,19 @@ class Formatter
     end
   end
 
-  def transaction_format
-    if @column_format
-      @column_format = false
+  def toggle_transaction_format
+    if @transaction_column
+      @transaction_column = false
     else
-      @column_format = true
+      @transaction_column = true
     end
   end
 
-  def reverse_statement_format
-    if @reverse_statement
-      @reverse_statement = false
+  def toggle_columns_order
+    if @reverse_column_order
+      @reverse_column_order = false
     else
-      @reverse_statement = true
+      @reverse_column_order = true
     end
   end
 
@@ -42,29 +42,30 @@ class Formatter
 
     sorted_transactions.each do |transaction|
       current_balance = balance(transaction, current_balance)
+      cells = []
 
-      if @column_format
-        ledger_entry = transaction_column_format(transaction, current_balance)
+      if @transaction_column
+        cells = transaction_column_format(transaction, current_balance)
       else
-        ledger_entry = standard_format(transaction, current_balance)
+        cells = standard_format(transaction, current_balance)
       end
 
-      ledger_entry = order_format(ledger_entry)
+      cells = column_order_format(cells)
 
-      ledger << separator(ledger_entry)
+      ledger << join_by_separator(cells)
     end
 
     return ledger.reverse.join("\n")
   end
 
-  def order_format(entry)
-    if @reverse_statement
+  def column_order_format(entry)
+    if @reverse_column_order
       return entry.reverse
     end
     return entry
   end
 
-  def date_format(date)
+  def format_date(date)
     case @american_date
     when true
       return date.strftime("%m/%d/%Y")
@@ -74,42 +75,35 @@ class Formatter
   end
 
   def statement_header
-    if @column_format
+    header = []
+    if @transaction_column
       header = ["date", "transactions", "balance"]
     else
       header = ["date", "credit", "debit", "balance"]
     end
 
-    header = order_format(header)
+    header = column_order_format(header)
 
-    return separator(header)
+    return join_by_separator(header)
   end
 
-  def separator(data)
+  def join_by_separator(data)
     return data.join(" || ").gsub("  ", " ")
   end
 
-  def credit(transaction)
+  def format_credit(transaction)
     if transaction.type != :credit
-      return
+      return ""
     else
-      decimal_format(transaction.amount)
-    end
-  end
-
-  def debit(transaction)
-    if transaction.type != :debit
-      return
-    else
-      decimal_format(transaction.amount)
-    end
-  end
-
-  def transaction_column(transaction)
-    if transaction.type == :credit
       return decimal_format(transaction.amount)
-    elsif transaction.type == :debit
-      return "(" + decimal_format(transaction.amount) + ")"
+    end
+  end
+
+  def format_debit(transaction)
+    if transaction.type != :debit
+      return ""
+    else
+      return decimal_format(transaction.amount)
     end
   end
 
@@ -138,21 +132,29 @@ class Formatter
   end
 
   def standard_format(transaction, current_balance)
-    ledger_entry = []
-    ledger_entry << date_format(transaction.date)
-    ledger_entry << credit(transaction)
-    ledger_entry << debit(transaction)
-    ledger_entry << decimal_format(current_balance)
+    cells = []
+    cells << format_date(transaction.date)
+    cells << format_credit(transaction)
+    cells << format_debit(transaction)
+    cells << decimal_format(current_balance)
 
-    return ledger_entry
+    return cells
   end
 
   def transaction_column_format(transaction, current_balance)
-    ledger_entry = []
-    ledger_entry << date_format(transaction.date)
-    ledger_entry << transaction_column(transaction)
-    ledger_entry << decimal_format(current_balance)
+    cells = []
+    cells << format_date(transaction.date)
+    cells << transaction_column(transaction)
+    cells << decimal_format(current_balance)
 
-    return ledger_entry
+    return cells
+  end
+
+  def transaction_column(transaction)
+    if transaction.type == :credit
+      return decimal_format(transaction.amount)
+    elsif transaction.type == :debit
+      return "(" + decimal_format(transaction.amount) + ")"
+    end
   end
 end

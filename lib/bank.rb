@@ -1,4 +1,5 @@
 require "formatter"
+require "transaction"
 
 class Bank
   def initialize(formatter = Formatter.new)
@@ -21,15 +22,15 @@ class Bank
   end
 
   def american_dates
-    @formatter.american_date_format
+    @formatter.toggle_date_format
   end
 
   def transaction_column
-    @formatter.transaction_format
+    @formatter.toggle_transaction_format
   end
 
-  def reverse_statement
-    @formatter.reverse_statement_format
+  def reversed_columns
+    @formatter.toggle_columns_order
   end
 
   def statement

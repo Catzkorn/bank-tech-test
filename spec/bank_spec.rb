@@ -102,22 +102,22 @@ describe Bank do
     end
   end
 
-  describe "#.reverse_statement" do
+  describe "#.reversed_columns" do
     it "reverses the statement vertically" do
       @account.deposit(1000, Time.new(2012, 1, 10))
       @account.deposit(2000, Time.new(2012, 1, 13))
       @account.withdraw(500, Time.new(2012, 1, 14))
-      @account.reverse_statement
+      @account.reversed_columns
       expect(@account.statement).to eq("balance || debit || credit || date\n2500.00 || 500.00 || || 14/01/2012\n3000.00 || || 2000.00 || 13/01/2012\n1000.00 || || 1000.00 || 10/01/2012")
     end
 
     it "reverses the statement, then changes back to standard statement format" do
-      @account.reverse_statement
+      @account.reversed_columns
       @account.deposit(1000, Time.new(2012, 1, 10))
       @account.deposit(2000, Time.new(2012, 1, 13))
       expect(@account.statement).to eq("balance || debit || credit || date\n3000.00 || || 2000.00 || 13/01/2012\n1000.00 || || 1000.00 || 10/01/2012")
       @account.withdraw(500, Time.new(2012, 1, 14))
-      @account.reverse_statement
+      @account.reversed_columns
       expect(@account.statement).to eq("date || credit || debit || balance\n14/01/2012 || || 500.00 || 2500.00\n13/01/2012 || 2000.00 || || 3000.00\n10/01/2012 || 1000.00 || || 1000.00")
     end
   end
