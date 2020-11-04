@@ -26,7 +26,11 @@ class Formatter
   end
 
   def reverse_statement_format
-    @reverse_statement = true
+    if @reverse_statement
+      @reverse_statement = false
+    else
+      @reverse_statement = true
+    end
   end
 
   private
