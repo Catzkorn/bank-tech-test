@@ -1,6 +1,6 @@
 class Formatter
   def initialize
-    @american_format = false
+    @american_date = false
     @collumn_format = false
     @reverse_statement = false
   end
@@ -10,10 +10,10 @@ class Formatter
   end
 
   def american_date_format
-    @american_format = true
+    @american_date = true
   end
 
-  def transaction_collumn_format
+  def transaction_format
     @collumn_format = true
   end
 
@@ -26,19 +26,18 @@ class Formatter
   def format_statement(transactions)
     ledger = []
     current_balance = 0
+    sorted_transactions = sort_transactions(transactions)
 
-    sort_transactions(transactions).each do |transaction|
+    sorted_transactions.each do |transaction|
       current_balance = balance(transaction, current_balance)
 
       if @collumn_format
-        ledger_entry = collumn_format(transaction, current_balance)
+        ledger_entry = transaction_collumn_format(transaction, current_balance)
       else
         ledger_entry = standard_format(transaction, current_balance)
       end
 
-      if @reverse_statement
-        ledger_entry = order_format(ledger_entry)
-      end
+      ledger_entry = order_format(ledger_entry)
 
       ledger << separator(ledger_entry)
     end
@@ -54,7 +53,7 @@ class Formatter
   end
 
   def date_format(date)
-    case @american_format
+    case @american_date
     when true
       return date.strftime("%m/%d/%Y")
     when false
@@ -136,7 +135,7 @@ class Formatter
     return ledger_entry
   end
 
-  def collumn_format(transaction, current_balance)
+  def transaction_collumn_format(transaction, current_balance)
     ledger_entry = []
     ledger_entry << date_format(transaction.date)
     ledger_entry << transaction_collumn(transaction)
