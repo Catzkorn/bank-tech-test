@@ -20,6 +20,10 @@ class Bank
     @transactions << Transaction.new(amount, :debit, date)
   end
 
+  def american_dates
+    @formatter.american_date_format
+  end
+
   def statement
     @formatter.format(@transactions)
   end
