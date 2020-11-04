@@ -1,4 +1,8 @@
 class Formatter
+  def initialize(american_format = false)
+    @american_format = american_format
+  end
+
   def format(transactions)
     return "#{statement_header}\n#{format_statement(transactions)}"
   end
@@ -13,7 +17,7 @@ class Formatter
       ledger_entry = []
       current_balance = balance(transaction, current_balance)
 
-      ledger_entry << transaction[:date].strftime("%d/%m/%Y")
+      ledger_entry << date_format(transaction[:date])
       ledger_entry << credit(transaction)
       ledger_entry << debit(transaction)
       ledger_entry << decimal_format(current_balance)
@@ -22,6 +26,15 @@ class Formatter
     end
 
     return ledger.reverse.join("\n")
+  end
+
+  def date_format(date)
+    case @american_format
+    when true
+      return date.strftime("%m/%d/%Y")
+    when false
+      return date.strftime("%d/%m/%Y")
+    end
   end
 
   def statement_header
