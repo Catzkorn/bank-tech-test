@@ -28,18 +28,12 @@ class Formatter
     current_balance = 0
 
     sort_transactions(transactions).each do |transaction|
-      ledger_entry = []
       current_balance = balance(transaction, current_balance)
 
       if @collumn_format
-        ledger_entry << date_format(transaction.date)
-        ledger_entry << transaction_collumn(transaction)
-        ledger_entry << decimal_format(current_balance)
+        ledger_entry = collumn_format(transaction, current_balance)
       else
-        ledger_entry << date_format(transaction.date)
-        ledger_entry << credit(transaction)
-        ledger_entry << debit(transaction)
-        ledger_entry << decimal_format(current_balance)
+        ledger_entry = standard_format(transaction, current_balance)
       end
 
       ledger << separator(ledger_entry)
@@ -94,9 +88,9 @@ class Formatter
 
   def transaction_collumn(transaction)
     if transaction.type == :credit
-      return credit(transaction)
+      return decimal_format(transaction.amount)
     elsif transaction.type == :debit
-      return "(" + debit(transaction) + ")"
+      return "(" + decimal_format(transaction.amount) + ")"
     end
   end
 
@@ -122,5 +116,24 @@ class Formatter
     }
 
     return sorted_transactions
+  end
+
+  def standard_format(transaction, current_balance)
+    ledger_entry = []
+    ledger_entry << date_format(transaction.date)
+    ledger_entry << credit(transaction)
+    ledger_entry << debit(transaction)
+    ledger_entry << decimal_format(current_balance)
+
+    return ledger_entry
+  end
+
+  def collumn_format(transaction, current_balance)
+    ledger_entry = []
+    ledger_entry << date_format(transaction.date)
+    ledger_entry << transaction_collumn(transaction)
+    ledger_entry << decimal_format(current_balance)
+
+    return ledger_entry
   end
 end
