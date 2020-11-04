@@ -2,6 +2,7 @@ class Formatter
   def initialize
     @american_format = false
     @collumn_format = false
+    @reverse_statement = false
   end
 
   def format(transactions)
@@ -15,6 +16,10 @@ class Formatter
   def transaction_collumn_format
     @collumn_format = true
   end
+
+  # def reverse_statement_format
+  #   @reverse_statement = true
+  # end
 
   private
 
@@ -42,6 +47,12 @@ class Formatter
 
     return ledger.reverse.join("\n")
   end
+
+  # def order_format(ledger_entry)
+  #   if @reverse_statement
+  #     return ledger_entry.reverse
+  #   end
+  # end
 
   def date_format(date)
     case @american_format

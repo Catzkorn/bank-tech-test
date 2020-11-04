@@ -159,6 +159,7 @@
           1,
           16,
           16,
+          16,
           null,
           null,
           1,
@@ -171,6 +172,10 @@
           null,
           1,
           1,
+          null,
+          null,
+          null,
+          null,
           null,
           null,
           1,
@@ -198,6 +203,12 @@
           null,
           null,
           9,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
           null,
           null,
           1,
@@ -302,10 +313,58 @@
           1,
           null,
           null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "/Users/charlotte/Makers/full-course/week-ten/tech-tests/bank-tech-test/spec/transaction_spec.rb": {
+        "lines": [
+          1,
+          null,
+          1,
+          1,
+          1,
+          1,
+          1,
+          null,
+          null,
+          1,
+          1,
+          1,
+          1,
+          null,
+          null,
+          null
+        ]
+      },
+      "/Users/charlotte/Makers/full-course/week-ten/tech-tests/bank-tech-test/lib/transaction.rb": {
+        "lines": [
+          1,
+          1,
+          2,
+          2,
+          2,
+          null,
+          null,
+          1,
+          2,
+          null,
           null
         ]
       }
     },
-    "timestamp": 1604501697
+    "timestamp": 1604506270
   }
 }
