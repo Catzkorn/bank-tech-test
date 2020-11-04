@@ -10,18 +10,14 @@ class Bank
   def deposit(amount, date = Time.now)
     deposit_errors(amount, date)
 
-    @transactions << { date: date,
-                       type: :credit,
-                       amount: amount }
+    @transactions << Transaction.new(amount, :credit, date)
   end
 
   def withdraw(amount, date = Time.now)
     withdraw_errors(amount, date)
 
     @balance -= amount
-    @transactions << { date: date,
-                       type: :debit,
-                       amount: amount }
+    @transactions << Transaction.new(amount, :debit, date)
   end
 
   def statement
@@ -51,10 +47,10 @@ class Bank
   def check_balance
     balance = 0
     @transactions.each { |transaction|
-      if transaction[:type] == :credit
-        balance += transaction[:amount]
-      elsif transaction[:type] == :debit
-        balance -= transaction[:amount]
+      if transaction.type == :credit
+        balance += transaction.amount
+      elsif transaction.type == :debit
+        balance -= transaction.amount
       end
     }
     return balance

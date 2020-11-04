@@ -32,11 +32,11 @@ class Formatter
       current_balance = balance(transaction, current_balance)
 
       if @collumn_format
-        ledger_entry << date_format(transaction[:date])
+        ledger_entry << date_format(transaction.date)
         ledger_entry << transaction_collumn(transaction)
         ledger_entry << decimal_format(current_balance)
       else
-        ledger_entry << date_format(transaction[:date])
+        ledger_entry << date_format(transaction.date)
         ledger_entry << credit(transaction)
         ledger_entry << debit(transaction)
         ledger_entry << decimal_format(current_balance)
@@ -77,34 +77,34 @@ class Formatter
   end
 
   def credit(transaction)
-    if transaction[:type] != :credit
+    if transaction.type != :credit
       return
     else
-      decimal_format(transaction[:amount])
+      decimal_format(transaction.amount)
     end
   end
 
   def debit(transaction)
-    if transaction[:type] != :debit
+    if transaction.type != :debit
       return
     else
-      decimal_format(transaction[:amount])
+      decimal_format(transaction.amount)
     end
   end
 
   def transaction_collumn(transaction)
-    if transaction[:type] == :credit
+    if transaction.type == :credit
       return credit(transaction)
-    elsif transaction[:type] == :debit
+    elsif transaction.type == :debit
       return "(" + debit(transaction) + ")"
     end
   end
 
   def balance(transaction, balance)
-    if transaction[:type] == :credit
-      balance += transaction[:amount]
-    elsif transaction[:type] == :debit
-      balance -= transaction[:amount]
+    if transaction.type == :credit
+      balance += transaction.amount
+    elsif transaction.type == :debit
+      balance -= transaction.amount
     end
 
     return balance
@@ -118,7 +118,7 @@ class Formatter
     sorted_transactions = []
 
     sorted_transactions = transactions.sort_by { |transaction|
-      transaction[:date]
+      transaction.date
     }
 
     return sorted_transactions
