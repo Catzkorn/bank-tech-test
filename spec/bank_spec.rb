@@ -83,16 +83,26 @@ describe Bank do
   end
 
   describe "#.transaction_column" do
-    it "changes statements to show a transaction column rather than credit and debit" do
+    it "changes statements to show a transaction column rather than the standard format" do
       @account.deposit(1000, Time.new(2012, 1, 10))
       @account.deposit(2000, Time.new(2012, 1, 13))
       @account.withdraw(500, Time.new(2012, 1, 14))
       @account.transaction_column
       expect(@account.statement).to eq("date || transactions || balance\n14/01/2012 || (500.00) || 2500.00\n13/01/2012 || 2000.00 || 3000.00\n10/01/2012 || 1000.00 || 1000.00")
     end
+
+    it "changes statements setting to transaction column, and back to standard format" do
+      @account.transaction_column
+      @account.deposit(1000, Time.new(2012, 1, 10))
+      @account.deposit(2000, Time.new(2012, 1, 13))
+      expect(@account.statement).to eq("date || transactions || balance\n13/01/2012 || 2000.00 || 3000.00\n10/01/2012 || 1000.00 || 1000.00")
+      @account.withdraw(500, Time.new(2012, 1, 14))
+      @account.transaction_column
+      expect(@account.statement).to eq("date || credit || debit || balance\n14/01/2012 || || 500.00 || 2500.00\n13/01/2012 || 2000.00 || || 3000.00\n10/01/2012 || 1000.00 || || 1000.00")
+    end
   end
 
-  describe "Feature test" do
+  describe "feature test" do
     it "is given two deposits and provides one withdraw, and prints statement" do
       @account.deposit(1000, Time.new(2012, 1, 10))
       @account.deposit(2000, Time.new(2012, 1, 13))

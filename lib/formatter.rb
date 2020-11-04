@@ -18,7 +18,11 @@ class Formatter
   end
 
   def transaction_format
-    @column_format = true
+    if @column_format
+      @column_format = false
+    else
+      @column_format = true
+    end
   end
 
   def reverse_statement_format

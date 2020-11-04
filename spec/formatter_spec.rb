@@ -17,7 +17,7 @@ describe Formatter do
   end
 
   describe "American Date Format" do
-    it "Formats the dates into american mm/dd/yyyy if the option is selected by the user" do
+    it "formats the dates into american mm/dd/yyyy if the option is selected by the user" do
       mock_transactions = [transaction_double, transaction_doubletwo, transaction_doublethree]
       @formatter.american_date_format
       expect(@formatter.format(mock_transactions)).to eq("date || credit || debit || balance\n01/14/2012 || || 500.00 || 2500.00\n01/13/2012 || 2000.00 || || 3000.00\n01/10/2012 || 1000.00 || || 1000.00")
@@ -25,7 +25,7 @@ describe Formatter do
   end
 
   describe "Single Transaction column Format" do
-    it "rormats the statement to have a single transaction column, with withdraws formatted in ()" do
+    it "formats the statement to have a single transaction column, with withdraws formatted in ()" do
       mock_transactions = [transaction_double, transaction_doubletwo, transaction_doublethree]
       @formatter.transaction_format
       expect(@formatter.format(mock_transactions)).to eq("date || transactions || balance\n14/01/2012 || (500.00) || 2500.00\n13/01/2012 || 2000.00 || 3000.00\n10/01/2012 || 1000.00 || 1000.00")
