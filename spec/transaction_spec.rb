@@ -27,12 +27,12 @@ describe Transaction do
   end
 
   describe "#.amount" do
-    it "returns the transaction amount" do
+    it "returns the transaction amount of a credit type" do
       transaction = Transaction.new(50, :credit)
       expect(transaction.amount).to eq 50
     end
 
-    it "returns debit as the type of transaction" do
+    it "returns the returns the transaction amount of a debit type" do
       transaction = Transaction.new(42, :debit)
       expect(transaction.amount).to eq 42
     end
