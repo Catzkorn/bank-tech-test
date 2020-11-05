@@ -138,5 +138,26 @@ describe Bank do
       @account.withdraw(500, Time.new(2012, 1, 14))
       expect(@account.statement).to eq("date || credit || debit || balance\n11/06/2020 || 800.00 || || 3100.00\n13/01/2020 || 2000.00 || || 2300.00\n14/01/2012 || || 500.00 || 300.00\n11/06/2011 || || 200.00 || 800.00\n10/01/2010 || 1000.00 || || 1000.00")
     end
+
+    it "allows a user to use all features" do
+      date = Time.now
+      @account.american_dates
+      @account.deposit(1000, Time.new(2012, 1, 10))
+      @account.deposit(2000, Time.new(2012, 1, 13))
+      @account.withdraw(500, Time.new(2012, 1, 14))
+      expect(@account.statement).to eq("date || credit || debit || balance\n01/14/2012 || || 500.00 || 2500.00\n01/13/2012 || 2000.00 || || 3000.00\n01/10/2012 || 1000.00 || || 1000.00")
+      @account.american_dates
+      @account.reversed_columns
+      @account.deposit(800, Time.new(2020, 6, 11))
+      @account.deposit(1000, Time.new(2010, 1, 10))
+      @account.withdraw(200, Time.new(2011, 6, 11))
+      @account.deposit(2000, Time.new(2020, 1, 13))
+      @account.withdraw(500, Time.new(2012, 1, 14))
+      expect(@account.statement).to eq("balance || debit || credit || date\n5600.00 || || 800.00 || 11/06/2020\n4800.00 || || 2000.00 || 13/01/2020\n2800.00 || 500.00 || || 14/01/2012\n3300.00 || 500.00 || || 14/01/2012\n3800.00 || || 2000.00 || 13/01/2012\n1800.00 || || 1000.00 || 10/01/2012\n800.00 || 200.00 || || 11/06/2011\n1000.00 || || 1000.00 || 10/01/2010")
+      @account.transaction_column
+      @account.deposit(400)
+      @account.withdraw(3000)
+      expect(@account.statement).to eq("balance || transactions || date\n3000.00 || (3000.00) || #{date.strftime("%d/%m/%Y")}\n6000.00 || 400.00 || #{date.strftime("%d/%m/%Y")}\n5600.00 || 800.00 || 11/06/2020\n4800.00 || 2000.00 || 13/01/2020\n2800.00 || (500.00) || 14/01/2012\n3300.00 || (500.00) || 14/01/2012\n3800.00 || 2000.00 || 13/01/2012\n1800.00 || 1000.00 || 10/01/2012\n800.00 || (200.00) || 11/06/2011\n1000.00 || 1000.00 || 10/01/2010")
+    end
   end
 end
