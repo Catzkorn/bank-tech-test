@@ -1,5 +1,5 @@
-require "formatter"
-require "transaction"
+require_relative "formatter"
+require_relative "transaction"
 
 class Bank
   def initialize(formatter = Formatter.new)
