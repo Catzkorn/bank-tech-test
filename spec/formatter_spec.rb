@@ -16,7 +16,7 @@ describe Formatter do
     end
   end
 
-  describe "American Date Format" do
+  describe "#.toggle_date_format" do
     it "formats the dates into american mm/dd/yyyy if the option is selected by the user" do
       mock_transactions = [transaction_double, transaction_doubletwo, transaction_doublethree]
       @formatter.toggle_date_format
@@ -24,7 +24,7 @@ describe Formatter do
     end
   end
 
-  describe "Single Transaction column Format" do
+  describe "#.toggle_transaction_format" do
     it "formats the statement to have a single transaction column, with withdraws formatted in ()" do
       mock_transactions = [transaction_double, transaction_doubletwo, transaction_doublethree]
       @formatter.toggle_transaction_format
@@ -32,7 +32,7 @@ describe Formatter do
     end
   end
 
-  describe "Reverse columns" do
+  describe "#.toggle_columns_order" do
     it "reverses the order of the columns in debit/credit format" do
       mock_transactions = [transaction_double, transaction_doubletwo, transaction_doublethree]
       @formatter.toggle_columns_order
